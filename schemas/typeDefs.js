@@ -25,7 +25,6 @@ const typeDefs = gql`
 
   type Query {
     me: Profile
-    recipe: [ Recipe]
   }
 
   type Mutation {
