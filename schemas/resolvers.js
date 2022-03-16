@@ -19,6 +19,13 @@ const resolvers = {
         const token = signToken(profile);
         return { token, profile };
       },
+      removeProfile: async (parent, args, context) => {
+        if (context.profile) {
+          return Profile.findOneAndDelete({ _id: context.profile._id });
+        }
+        throw new AuthenticationError('You need to be logged in!');
+      },
+
       login: async (parent, { email, password }) => {
         const profile = await Profile.findOne({ email });
   
