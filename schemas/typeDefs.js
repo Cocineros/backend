@@ -33,6 +33,7 @@ const typeDefs = gql`
     addRecipe(name: String!,description: String!, ingredients: [String]!, instructions: String!): Recipe
     removeRecipe(_id: String!): Recipe
     editRecipe(_id: String!, name: String, description: String, ingredients: [String], instructions: String): Recipe
+    removeProfile: Profile
   }
 `;
 
