@@ -21,6 +21,7 @@ const resolvers = {
       },
       removeProfile: async (parent, args, context) => {
         if (context.profile) {
+          
           return Profile.findOneAndDelete({ _id: context.profile._id });
         }
         throw new AuthenticationError('You need to be logged in!');
@@ -75,11 +76,22 @@ const resolvers = {
       },
 
       editRecipe: async (parent, args, context) => {
-        console.log("args", args)
+        // console.log("args", args)
         if (context.profile) {
           const currentProfile = await Profile.findOne({ _id: context.profile._id })
           console.log("current profile", currentProfile)
-          const mutatedProfile = {...currentProfile.savedRecipes, ...args}
+          // const mutatedProfile = {...currentProfile.savedRecipes, ...args}
+          const mutatedProfile = currentProfile.savedRecipes.map((recipe) => {
+            console.log(recipe._id.toString())
+            console.log(args._id)
+            if (recipe._id.toString() === args._id) {
+              console.log("editing", recipe)
+              console.log(args)
+             return Object.assign(recipe, args)
+            } else {
+              return recipe
+            }
+          })
           await Profile.findOneAndUpdate(
             // { _id: savedRecipes._id}
             { _id: context.profile._id},
