@@ -1,1 +1,2 @@
-# backend
+# Backend
+This back end app hosts our front end app called Bumbu. This back end will hold all user data such as sign ups, login, and recipe data. To see all the magic please check out our front end server or head over to our heroku app link.
