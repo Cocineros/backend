@@ -1,11 +1,8 @@
-// import dotenv from 'dotenv'
-// dotenv.config()
-
 require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.SECRET; // this should be in ENV I THINK
+const secret = process.env.APP_SECRET; 
 const expiration = '2h';
 
 module.exports = {
