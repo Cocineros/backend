@@ -1,6 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { Profile, Recipe } = require('../models');
-const recipeSchema = require('../models/Recipe');
+const { Profile } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -41,11 +40,10 @@ const resolvers = {
         }
   
         const token = signToken(profile);
-  
         return { token, profile };
       },
+
       addRecipe: async (parent,  args , context) => {
-        console.log(context)
         if (context.profile) {
           await Profile.findOneAndUpdate(
             { _id: context.profile._id },
@@ -76,24 +74,17 @@ const resolvers = {
       },
 
       editRecipe: async (parent, args, context) => {
-        // console.log("args", args)
         if (context.profile) {
           const currentProfile = await Profile.findOne({ _id: context.profile._id })
           console.log("current profile", currentProfile)
-          // const mutatedProfile = {...currentProfile.savedRecipes, ...args}
           const mutatedProfile = currentProfile.savedRecipes.map((recipe) => {
-            console.log(recipe._id.toString())
-            console.log(args._id)
             if (recipe._id.toString() === args._id) {
-              console.log("editing", recipe)
-              console.log(args)
              return Object.assign(recipe, args)
             } else {
               return recipe
             }
           })
           await Profile.findOneAndUpdate(
-            // { _id: savedRecipes._id}
             { _id: context.profile._id},
             { $set: {  savedRecipes:  mutatedProfile} },
             {
